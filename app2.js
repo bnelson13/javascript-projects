@@ -1,52 +1,22 @@
-// Stopwatch Project
 const startButton = document.querySelector('#stopwatch-button-start');
 const stopButton = document.querySelector('#stopwatch-button-stop');
 const resetButton = document.querySelector('#stopwatch-button-reset');
 const lapButton = document.querySelector('#stopwatch-button-lap');
 const stopwatchLaps = document.querySelector('.stopwatch-laps');
 const stopwatchTime = document.querySelector('#stopwatch-time');
-const stopwatchSeconds = document.querySelector('#stopwatch-time-seconds');
-// let currentStart = Date.now();
-// let runningInterval = setInterval(runTime(Date.now()), 10);
-
-// function runTime(now) {
-//   stopwatchTime.innerHTML = msToTime(now - currentStart);
-// }
-
-let timerCount = 0;
-let timeInterval;
-let stopTimeTime;
-let firstStartTime;
+let timerInerval;
+lapTimes = [];
+lapCount = 0;
+let timeNumber = 0;
 
 startButton.addEventListener('click', function startTime() {
   startButton.style.display = 'none';
   stopButton.style.display = 'block';
   resetButton.style.display = 'none';
   lapButton.style.display = 'block';
-  if (timerCount == 0) {
-    timerCount++;
-    firstStartTime = Date.now();
-    intervalTime = setInterval(() => {
-      if (stopButton.style.display != 'none') {
-        stopwatchTime.innerHTML = `${msToTime(Date.now() - firstStartTime)}`;
-      }
-    }, 10);
-  } else {
-    console.log(timerCount);
-    stopTimeTime = Date.now() - stopTimeTime;
-    intervalTime = setInterval(() => {
-      stopwatchTime.innerHTML = `${msToTime(Date.now() - stopTimeTime)}`;
-    }, 10);
-  }
-  //   let firstStart = Date.now();
-  //   let elaspedTime = `${msToTime(currentTime - firstStart)}`;
-  //   if (firstStart == Date.now()) {
-  //     setInterval(() => {
-  //       stopwatchTime.innerHTML = elaspedTime;
-  //     }, 10);
-  //   } else {
-  //     console.log('too late');
-  //   }
+  timerInerval = setInterval(() => {
+    stopwatchTime.innerHTML = msToTime(10 * timeNumber++);
+  }, 10);
 });
 
 stopButton.addEventListener('click', function stopTime() {
@@ -54,24 +24,33 @@ stopButton.addEventListener('click', function stopTime() {
   startButton.style.display = 'block';
   resetButton.style.display = 'block';
   lapButton.style.display = 'none';
-  stopTimeTime = Date.now();
-  clearInterval(intervalTime);
+  clearInterval(timerInerval);
 });
 
 resetButton.addEventListener('click', function resetStopwatch() {
-  console.log('Reset');
-  timerCount = 0;
+  lapCount = 0;
   stopwatchTime.innerHTML = '00:00:00.00';
+  timeNumber = 0;
   stopwatchLaps.innerHTML = `<div class="stopwatch-lap">
-    <div class="lap-number">Lap 1</div>
-    <div class="lap-time">00:00:00.00</div>
-  </div>`;
+      <div class="lap-number">Lap 1</div>
+      <div class="lap-time">00:00:00.00</div>
+    </div>`;
 });
 
-// function startTimerFunction(startDate) {
-//   let delta = ((Date.now() - startDate) / 1000).toFixed(2);
-//   return msToTime(delta);
-// }
+lapButton.addEventListener('click', function addLapTime() {
+  lapCount++;
+  console.log(stopwatchTime.innerHTML, msToTime(getMsDifference(stopwatchTime.innerHTML)));
+  stopwatchLaps.innerHTML =
+    `<div class="stopwatch-lap">
+    <div class="lap-number">Lap ${lapCount}</div>
+    <div id="lap-time-${lapCount}" class="lap-time">${stopwatchTime.innerHTML}</div>
+  </div>` + stopwatchLaps.innerHTML;
+});
+
+function getMsDifference(timeString) {
+  let timeArray = timeString.split(':');
+  return 1000 * (parseInt(timeArray[0] * 3600) + parseInt(timeArray[1] * 60) + parseFloat(timeArray[2]));
+}
 
 function msToTime(duration) {
   var milliseconds = parseInt((duration % 1000) / 10),
