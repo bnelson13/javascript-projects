@@ -1,0 +1,102 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+.page-title {
+  text-align: center;
+  margin: 40px;
+  font-size: 30px;
+  color: rgb(22, 109, 94);
+}
+
+.project-title {
+  text-align: center;
+  font-size: 25px;
+  margin: 10px;
+}
+
+.project-class {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  margin: 50px;
+  background-color: rgb(0, 0, 0);
+}
+
+/* Project Stopwatch */
+#project-stopwatch {
+  width: 300px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.stopwatch-time-div {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+#stopwatch-time {
+  font-size: 40px;
+  text-align: center;
+  font-weight: 100;
+  margin: 20px;
+}
+
+#stopwatch-time-hours {
+  display: none;
+}
+
+.stopwatch-buttons {
+  display: flex;
+  margin: 20px 0;
+  width: 280px;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.stopwatch-buttons button {
+  height: 50px;
+  cursor: pointer;
+  width: 50px;
+  background-color: rgba(128, 128, 128, 0.342);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  color: white;
+  border-radius: 50%;
+  margin: 10px;
+}
+
+#stopwatch-button-start {
+  border: 1px solid green;
+  color: green;
+}
+
+#stopwatch-button-stop {
+  display: none;
+  border: 1px solid red;
+  color: red;
+}
+
+#stopwatch-button-lap {
+  display: none;
+}
+
+.stopwatch-buttons button:focus {
+  outline: none;
+}
+
+.stopwatch-laps {
+  color: white;
+}
+
+.stopwatch-lap {
+  display: flex;
+  justify-content: space-between;
+  /* margin: 10px; */
+  padding: 10px;
+  border-bottom: 1px solid gray;
+}
