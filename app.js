@@ -6,20 +6,39 @@ const lapButton = document.querySelector('#stopwatch-button-lap');
 const stopwatchLaps = document.querySelector('.stopwatch-laps');
 const stopwatchTime = document.querySelector('#stopwatch-time');
 const stopwatchSeconds = document.querySelector('#stopwatch-time-seconds');
-let currentStart = Date.now();
+// let currentStart = Date.now();
+// let runningInterval = setInterval(runTime(Date.now()), 10);
 
-let runningInterval;
+// function runTime(now) {
+//   stopwatchTime.innerHTML = msToTime(now - currentStart);
+// }
 
-function runTime(now) {
-  stopwatchTime.innerHTML = msToTime(now - currentStart);
-}
+let timerCount = 0;
 
 startButton.addEventListener('click', function startTime() {
   startButton.style.display = 'none';
   stopButton.style.display = 'block';
   resetButton.style.display = 'none';
   lapButton.style.display = 'block';
-  runningInterval = setInterval(runTime(Date.now()), 10);
+  if (timerCount == 0) {
+    let firstStartTime = Date.now();
+    setInterval(() => {
+      if (stopButton.style.display != 'none' && timerCount == 0) {
+        stopwatchTime.innerHTML = `${msToTime(Date.now() - firstStartTime)}`;
+      }
+    }, 10);
+  } else {
+    console.log(timerCount);
+  }
+  //   let firstStart = Date.now();
+  //   let elaspedTime = `${msToTime(currentTime - firstStart)}`;
+  //   if (firstStart == Date.now()) {
+  //     setInterval(() => {
+  //       stopwatchTime.innerHTML = elaspedTime;
+  //     }, 10);
+  //   } else {
+  //     console.log('too late');
+  //   }
 });
 
 stopButton.addEventListener('click', function stopTime() {
@@ -28,11 +47,14 @@ stopButton.addEventListener('click', function stopTime() {
   resetButton.style.display = 'block';
   lapButton.style.display = 'none';
   console.log('Stop');
-  clearInterval(runningInterval);
+  timerCount++;
+  //   stopwatchTime.innerHTML = '00:00:00.00';
+  //   clearInterval(runningInterval);
 });
 
 resetButton.addEventListener('click', function resetStopwatch() {
   console.log('Reset');
+  timerCount = 0;
   stopwatchTime.innerHTML = '00:00:00.00';
   stopwatchLaps.innerHTML = `<div class="stopwatch-lap">
     <div class="lap-number">Lap 1</div>
@@ -40,10 +62,10 @@ resetButton.addEventListener('click', function resetStopwatch() {
   </div>`;
 });
 
-function startTimerFunction(startDate) {
-  let delta = ((Date.now() - startDate) / 1000).toFixed(2);
-  return msToTime(delta);
-}
+// function startTimerFunction(startDate) {
+//   let delta = ((Date.now() - startDate) / 1000).toFixed(2);
+//   return msToTime(delta);
+// }
 
 function msToTime(duration) {
   var milliseconds = parseInt((duration % 1000) / 10),
