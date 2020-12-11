@@ -8,6 +8,7 @@ let timerInerval;
 lapTimes = [];
 lapCount = 1;
 let timeNumber = 0;
+let lapTimeNumber = 0;
 
 startButton.addEventListener('click', function startTime() {
   startButton.style.display = 'none';
@@ -16,7 +17,7 @@ startButton.addEventListener('click', function startTime() {
   lapButton.style.display = 'block';
   timerInerval = setInterval(() => {
     stopwatchTime.innerHTML = msToTime(10 * timeNumber++);
-    document.querySelector(`#lap-time-${lapCount}`).innerHTML = msToTime(10 * timeNumber++ - 1);
+    document.querySelector(`#lap-time-${lapCount}`).innerHTML = msToTime(10 * lapTimeNumber++);
   }, 10);
 });
 
@@ -33,22 +34,25 @@ resetButton.addEventListener('click', function resetStopwatch() {
   stopwatchTime.innerHTML = '00:00:00.00';
   timeNumber = 0;
   stopwatchLaps.innerHTML = `<div class="stopwatch-lap">
-      <div class="lap-number">Lap 1</div>
+      <div class="lap-number">Lap ${lapCount}</div>
       <div id="lap-time-1" class="lap-time">00:00:00.00</div>
     </div>`;
 });
 
 lapButton.addEventListener('click', function addLapTime() {
+  console.log(lapDifference);
   lapCount++;
-  console.log(stopwatchTime.innerHTML, msToTime(timeToMs(stopwatchTime.innerHTML)));
-  if (lapCount != 1) {
-    stopwatchLaps.innerHTML =
-      `<div class="stopwatch-lap">
+  lapTimeNumber = 0;
+  stopwatchLaps.innerHTML =
+    `<div class="stopwatch-lap">
     <div class="lap-number">Lap ${lapCount}</div>
-    <div id="lap-time-${lapCount}" class="lap-time">${stopwatchTime.innerHTML}</div>
+    <div id="lap-time-${lapCount}" class="lap-time">${msToTime(10 * lapTimeNumber)}</div>
   </div>` + stopwatchLaps.innerHTML;
-  }
 });
+
+let lapDifference = `${msToTime(
+  timeToMs(stopwatchTime.innerHTML) - timeToMs(document.querySelector(`#lap-time-${lapCount}`).innerHTML)
+)}`;
 
 function timeToMs(timeString) {
   let timeArray = timeString.split(':');
